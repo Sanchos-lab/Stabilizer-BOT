@@ -48,15 +48,24 @@ def show_header():
         print(f" [{name}]: {bal:,.2f}")
     print("="*50)
 
-def run_script(script_name):
+def run_script(script_name, args=None):
     try:
         print(f"\n🚀 Running module: {script_name}...")
-        # Using current python interpreter
-        subprocess.run(["python", script_name], check=True)
+        
+        # Build the command list
+        command = ["python", script_name]
+        
+        # If arguments (like amount) are provided, add them to the command
+        if args:
+            command.extend(args)
+            
+        # Execute the script with arguments
+        subprocess.run(command, check=True)
+        
         input("\n✅ Module finished. Press Enter to return to menu...")
     except Exception as e:
         print(f"\n❌ Error executing {script_name}: {e}")
-        input("\nPress Enter...")
+        input("\nPress Enter to continue...")
 
 def main():
     while True:
@@ -72,7 +81,17 @@ def main():
         if choice == "1":
             run_script("claim.py")
         elif choice == "2":
-            run_script("swap2M.py")
+            # Sub-step: Get the amount from the user
+            amount = input(" Enter USDT amount for swap (e.g., 5000): ")
+            
+            # Basic validation to ensure the amount is a number
+            if amount.replace('.', '', 1).isdigit():
+                print(f"🚀 Starting swap for {amount} USDT...")
+                run_script("swap2M.py", [amount])
+            else:
+                print("\n⚠️ Invalid amount. Please enter a number.")
+                time.sleep(1)
+                
         elif choice == "3":
             run_script("liquidity.py")
         elif choice == "0":

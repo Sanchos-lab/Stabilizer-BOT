@@ -11,13 +11,13 @@ load_dotenv('accounts.txt')
 private_key = os.getenv('PRIVATE_KEY')
 account = w3.eth.account.from_key(private_key)
 
-gas_price = int(w3.eth.gas_price * 1.15)
+gas_price = int(w3.eth.gas_price * 1.5)
 
 tx = {
     'nonce': w3.eth.get_transaction_count(account.address, 'pending'),
     'to': '0xAeDE2De677C154CBB527afdC3E88793A4a303664',
     'value': 0,
-    'gas': 170000,
+    'gas': 180000,
     'gasPrice': gas_price,
     'data': '0xd1058e59',
     'chainId': 11155111
